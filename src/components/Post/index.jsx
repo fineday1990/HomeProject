@@ -26,9 +26,8 @@ const ExpandMoreStyle = styled((props) => {
 }));
 
 export const Post = ({
-	onPostLike,
-	currentUser,
-	_id,
+  onPostLike,
+  _id,
   image,
   likes,
   author: { avatar, name, email, about },
@@ -42,8 +41,8 @@ export const Post = ({
 
   const dataFormated = dayjs(created_at).format("dddd, DD/MM/YYYY");
 
-  function handleLikeClick(){
-	  onPostLike({_id, likes})
+  function handleLikeClick() {
+    onPostLike({ _id, likes });
   }
 
   return (
@@ -79,8 +78,8 @@ export const Post = ({
         </CardContent>
         <CardActions sx={{ marginTop: "auto" }} disableSpacing>
           <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
-            <Favorite/>
-				{likes.length}
+            <Favorite />
+            {likes.length}
           </IconButton>
           <ExpandMoreStyle
             expand={expanded}
