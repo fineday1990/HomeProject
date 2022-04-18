@@ -15,8 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import s from './styles.module.css'
-
+import s from "./styles.module.css";
 
 const ExpandMoreStyle = styled((props) => {
   const { expand, ...other } = props;
@@ -27,24 +26,35 @@ const ExpandMoreStyle = styled((props) => {
 }));
 
 export const Post = ({
+	onPostLike,
+	currentUser,
+	_id,
   image,
-  author: { avatar,name, email,about },
+  likes,
+  author: { avatar, name, email, about },
   text,
   created_at,
 }) => {
   const [expanded, setExpanded] = useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const dataFormated = dayjs(created_at).format('dddd, DD/MM/YYYY') 
+  const dataFormated = dayjs(created_at).format("dddd, DD/MM/YYYY");
+
+  function handleLikeClick(){
+	  onPostLike({_id, likes})
+  }
 
   return (
-		<Grid container item xs={6} sm={4} md={3}>
-      	<Card className={s.card} sx={{ maxWidth: 345 }}>
+    <Grid container item xs={6} sm={4} md={3}>
+      <Card className={s.card} sx={{ maxWidth: 345 }}>
         <CardHeader
-          avatar={<Avatar src ={avatar && avatar} aria-label="recipe">{!avatar && name.slice(0,1)}</Avatar>}
+          avatar={
+            <Avatar src={avatar && avatar} aria-label="recipe">
+              {!avatar && name.slice(0, 1)}
+            </Avatar>
+          }
           action={
             <IconButton aria-label="settings">
               <MoreVert />
@@ -67,9 +77,10 @@ export const Post = ({
             {about}
           </Typography>
         </CardContent>
-        <CardActions sx={{marginTop : 'auto'}} disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <Favorite />
+        <CardActions sx={{ marginTop: "auto" }} disableSpacing>
+          <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
+            <Favorite/>
+				{likes.length}
           </IconButton>
           <ExpandMoreStyle
             expand={expanded}
@@ -81,12 +92,10 @@ export const Post = ({
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>
-              {text}
-            </Typography>
+            <Typography paragraph>{text}</Typography>
           </CardContent>
         </Collapse>
-      	</Card>
-		</Grid>
+      </Card>
+    </Grid>
   );
 };

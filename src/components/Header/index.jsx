@@ -4,10 +4,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import s from "./styles.module.css";
 
 
-export const Header = () => {
+export const Header = ({user, onUpdateUser}) => {
 
+	function handleClickEditButton(e) {
+		e.preventDefault();
+		onUpdateUser({name: "Вишневский Илья Андреевич", about: "Frontend"})
+	 } 
 	const [open,setOpen] = React.useState(false);
 
 	const handleClickOpen = () =>{
@@ -26,12 +31,21 @@ export const Header = () => {
 		setOpenTwo(false);
 	}
 
+
   return (
 	<AppBar position="static">
 	<Toolbar>
 	  <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
 		 Post
 	  </Typography>
+	  <div className={s.profile}>
+	  {user.name && <span>{user.name}: {user.about}</span>}
+	  {user.email && <span>{user.email}</span>}
+	  </div>
+
+	  <Button variant="contained" color="secondary" onClick={handleClickEditButton}>
+		change
+      </Button>
 
 	  <Button color="inherit" onClick={handleClickOpen}>Login</Button>
 
@@ -61,9 +75,11 @@ export const Header = () => {
 				<Button onClick={handleClose} color="primary">Log in</Button>
 			</DialogActions>
 		</Dialog>
+
 		<Button variant="contained" color="success" onClick={handleClickOpenTwo}>
-        Create
+		Create
       </Button>
+
 		<Dialog open={openTwo} onClose={handleCloseTwo} aria-labelledby="form">
 		<DialogContent>
 				<DialogContentText>Карточка</DialogContentText>
